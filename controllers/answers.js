@@ -1,17 +1,18 @@
-const { questions } = require('../models/index');
+const { answers } = require('../models/index');
 const transformer = require('./transformer');
 
 module.exports = {
   get: (req, res) => {
-    let id = req.query.product_id;
+    let questionId = req.params.question_id;
     let count = req.query.count || 5;
     let page = req.query.page || 1;
-    questions.readAll([id, count], (err, data) => {
+    questions.readAll([questionId, count, page], (err, data) => {
+      s;
       if (err) {
         console.error('Error: ', err);
         res.end();
       }
-      res.json(transformer.questions(id, data));
+      res.json(transformer.answers(id, data));
     });
   },
   // post: (req, res) => {

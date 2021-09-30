@@ -2,7 +2,7 @@ const pool = require('../db');
 
 module.exports = {
   readAll: (dataArray, callback) => {
-    const queryString = 'SELECT * FROM questions WHERE product_id = $1 LIMIT $2';
+    const queryString = 'SELECT * FROM answers WHERE question_id = $1 LIMIT $2';
     pool
       .query(queryString, dataArray)
       .then((data) => {
