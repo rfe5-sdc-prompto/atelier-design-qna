@@ -1,32 +1,40 @@
+DROP TABLE IF EXISTS qna;
 CREATE DATABASE qna;
 
 \c qna;
 
-CREATE TABLE questions (
-  id int NOT NULL AUTO_INCREMENT,
-  body text,
-  askDate date,
-  askName VARCHAR(100),
-  helpfulness int,
-  PRIMARY KEY(id)
-)
+CREATE TABLE IF NOT EXISTS questions (
+  id SERIAL PRIMARY KEY,
+  product_id integer,
+  body TEXT,
+  date_written bigint,
+  asker_name VARCHAR(100),
+  asker_email VARCHAR(100),
+  reported integer,
+  helpful integer
+);
 
-CREATE TABLE answers (
-  id int NOT NULL AUTO_INCREMENT,
-  body text,
-  answerDate date,
-  answerName VARCHAR,
-  helpfulness int,
-  PRIMARY KEY(id)
+CREATE TABLE IF NOT EXISTS answers (
+  id SERIAL PRIMARY KEY,
+  question_id integer,
+  body TEXT,
+  date_written bigint,
+  answerer_name VARCHAR(100),
+  answerer_email VARCHAR(100),
+  reported integer,
+  helpful integer,
   CONSTRAINT fk_question
-    FOREIGN KEY(id)
+    FOREIGN KEY(question_id)
       REFERENCES questions(id)
-)
+);
 
-CREATE TABLE photos (
-  id int NOT NULL AUTO_INCREMENT,
-  photoUrl text,
+CREATE TABLE IF NOT EXISTS photos (
+  id SERIAL PRIMARY KEY,
+  answer_id integer,
+  photoUrl TEXT,
   CONSTRAINT fk_answer
-    FOREIGN KEY(id)
-      REFERENCES questions(id)
-)
+    FOREIGN KEY(answer_id)
+      REFERENCES answers(id)
+);
+
+-- psql -d qna -U chris2 -a -f qnaSchema.sql
