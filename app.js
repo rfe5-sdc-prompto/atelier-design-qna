@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { questions } = require('./controllers/index');
+const { questions, answers } = require('./controllers/index');
 
 let app = express();
 
@@ -13,6 +13,9 @@ app.get('/', (req, res) => {
 
 app.get('/qa/questions', (req, res) => {
   questions.get(req, res);
+});
+app.get('/qa/questions/:question_id/answers', (req, res) => {
+  answers.get(req, res);
 });
 
 module.exports = app;

@@ -4,15 +4,15 @@ const transformer = require('./transformer');
 module.exports = {
   get: (req, res) => {
     let questionId = req.params.question_id;
-    let count = req.query.count || 5;
     let page = req.query.page || 1;
-    questions.readAll([questionId, count, page], (err, data) => {
-      s;
+    let count = req.query.count || 5;
+    answers.readAll([questionId, count], (err, data) => {
       if (err) {
         console.error('Error: ', err);
         res.end();
       }
-      res.json(transformer.answers(id, data));
+      //res.json(transformer.answers(questionId, page, count, data));
+      res.json(data);
     });
   },
   // post: (req, res) => {

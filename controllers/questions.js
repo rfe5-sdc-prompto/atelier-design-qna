@@ -1,4 +1,4 @@
-const { questions } = require('../models/index');
+const { questions, answers } = require('../models/index');
 const transformer = require('./transformer');
 
 module.exports = {
@@ -11,9 +11,22 @@ module.exports = {
         console.error('Error: ', err);
         res.end();
       }
+      //res.json(data);
       res.json(transformer.questions(id, data));
     });
   },
+  // get: (req, res) => {
+  //   let id = req.query.product_id;
+  //   let count = req.query.count || 5;
+  //   let page = req.query.page || 1;
+  //   questions.readAllWithAnswers([id, count], (err, data) => {
+  //     if (err) {
+  //       console.error('Error: ', err);
+  //       res.end();
+  //     }
+  //     res.json(data);
+  //   });
+  // },
   // post: (req, res) => {
   //   let dataArray = [name, description];
   //   questions.create(dataArray, (err, data) => {
