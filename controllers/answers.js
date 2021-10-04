@@ -40,15 +40,5 @@ module.exports = {
   //     }
   //     res.json(data);
   //   });
-  // },
-  // delete: (req, res) => {
-  //   let id = req.params.id;
-  //   questions.delete(id, (err, data) => {
-  //     if (err) {
-  //       console.error('Error: ', err);
-  //       res.status(500).end();
-  //     }
-  //     res.json(data);
-  //   });
-  // },
+  // }
 };

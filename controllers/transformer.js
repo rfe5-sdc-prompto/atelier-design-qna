@@ -20,6 +20,9 @@ const formatQuestions = (id, data) => {
 
 const formatQuestionAnswers = (id, answers) => {
   let formattedData = {};
+  if (!answers) {
+    return formattedData;
+  }
   if (answers.length === 0) {
     return formattedData;
   }
@@ -41,6 +44,9 @@ const formatQuestionAnswers = (id, answers) => {
 
 const formatAnswerPhotos = (photos) => {
   let formattedPhotos = [];
+  if (photos === undefined) {
+    return formattedPhotos;
+  }
   if (photos.length === 0) {
     return formattedPhotos;
   }
@@ -48,27 +54,27 @@ const formatAnswerPhotos = (photos) => {
   return formattedPhotos;
 };
 
-const formatAnswers = (id, page, count, { rows }) => {
-  let formattedData = {
-    question: id,
-    page: page,
-    count: count,
-  };
-  let resultsData = rows.map((row) => {
-    return {
-      answer_id: row.id,
-      body: row.body,
-      date: new Date(parseInt(row.date_written)),
-      answerer_name: row.answerer_name,
-      helpfulness: row.helpful,
-      photos: [],
-    };
-  });
-  formattedData.results = resultsData;
-  return formattedData;
-};
+// const formatAnswers = (id, page, count, { rows }) => {
+//   let formattedData = {
+//     question: id,
+//     page: page,
+//     count: count,
+//   };
+//   let resultsData = rows.map((row) => {
+//     return {
+//       answer_id: row.id,
+//       body: row.body,
+//       date: new Date(parseInt(row.date_written)),
+//       answerer_name: row.answerer_name,
+//       helpfulness: row.helpful,
+//       photos: [],
+//     };
+//   });
+//   formattedData.results = resultsData;
+//   return formattedData;
+// };
 
 module.exports = {
   questions: formatQuestions,
-  answers: formatAnswers,
+  // answers: formatAnswers,
 };

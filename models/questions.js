@@ -1,17 +1,18 @@
 const pool = require('../db');
 
-const readAll = (dataArray, callback) => {
+const readAll = (dataArray) => {
   const queryString = 'SELECT * FROM questions WHERE product_id = $1 LIMIT $2';
-  pool
+  return pool
     .query(queryString, dataArray)
     .then((questions) => {
       const queryString = 'SELECT * FROM answers WHERE question_id = $1';
-      let questionsWithAnswers = questions.rows.map((question) => {
+      return questions.rows.map((question) => {
         return pool
           .query(queryString, [question.id])
           .then((answers) => {
-            const queryString = 'SELECT * FROM photos WHERE answer_id = $1';
-            let answerWithPhotos = answers.rows.map((answer) => {
+            const queryString =
+              'SELECT photourl FROM photos WHERE answer_id = $1';
+            return answers.rows.map((answer) => {
               return pool
                 .query(queryString, [answer.id])
                 .then((photos) => {
@@ -22,30 +23,43 @@ const readAll = (dataArray, callback) => {
                   console.error('Error: ', err);
                 });
             });
-            question.answers = answers.rows;
+          })
+          .then((answers) => {
+            return Promise.all(answers);
+          })
+          .then((answers) => {
+            question.answers = answers;
             return question;
           })
           .catch((err) => {
             console.error('Error: ', err);
           });
       });
-      return Promise.all(questionsWithAnswers);
     })
     .then((data) => {
-      callback(null, data);
+      return Promise.all(data);
     })
     .catch((err) => {
-      callback(err);
+      console.error('Error: ', err);
     });
+  // .then((data) => cb(null, data))
+  // .catch((err) => {
+  //   callback(err);
+  // });
 };
 
-const readAllWithAnswers = (dataArray, callback) => {
+const readAllWithAnswers = (dataArray) => {
   const queryString = `
-  SELECT *
+  SELECT questions.id, questions.body, questions.date_written, questions.asker_name, questions.helpful, questions.reported,
+
+
+
   FROM questions
   LEFT OUTER JOIN answers
   ON (questions.id = answers.question_id)
   WHERE product_id = $1
+  LEFT OUTER JOIN photos
+  ON (answers.id = photos.answer_id)
   EXCEPT
   SELECT *
   FROM questions
@@ -54,13 +68,13 @@ const readAllWithAnswers = (dataArray, callback) => {
   WHERE questions.reported = 1 OR answers.reported = 1
   LIMIT $2
   `;
-  pool
+  return pool
     .query(queryString, dataArray)
     .then((data) => {
-      callback(null, data);
+      return data;
     })
     .catch((err) => {
-      callback(err);
+      console.log(err);
     });
 };
 

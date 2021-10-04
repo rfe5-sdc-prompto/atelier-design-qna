@@ -6,14 +6,24 @@ module.exports = {
     let id = req.query.product_id;
     let count = req.query.count || 5;
     let page = req.query.page || 1;
-    questions.readAll([id, count], (err, data) => {
-      if (err) {
+    // questions.readAll([id, count], (err, data) => {
+    //   if (err) {
+    //     console.error('Error: ', err);
+    //     res.end();
+    //   }
+    //   res.json(transformer.questions(id, data));
+    // });
+
+    questions
+      .readAll([id, count])
+      .then((data) => {
+        res.json(transformer.questions(id, data));
+      })
+      .catch((err) => {
         console.error('Error: ', err);
-        res.end();
-      }
-      //res.json(data);
-      res.json(transformer.questions(id, data));
-    });
+      });
+
+    //questions.readAllWithAnswers([id, count])
   },
   // get: (req, res) => {
   //   let id = req.query.product_id;

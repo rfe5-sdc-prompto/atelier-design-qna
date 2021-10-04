@@ -1,17 +1,19 @@
 const pool = require('../db');
 
+const readAll = (dataArray, callback) => {
+  const queryString = 'SELECT * FROM answers WHERE question_id = $1 LIMIT $2';
+  pool
+    .query(queryString, dataArray)
+    .then((data) => {
+      callback(null, data);
+    })
+    .catch((err) => {
+      callback(err);
+    });
+};
+
 module.exports = {
-  readAll: (dataArray, callback) => {
-    const queryString = 'SELECT * FROM answers WHERE question_id = $1 LIMIT $2';
-    pool
-      .query(queryString, dataArray)
-      .then((data) => {
-        callback(null, data);
-      })
-      .catch((err) => {
-        callback(err);
-      });
-  },
+  readAll: readAll,
   // readOne: (id, callback) => {
   //   const queryString = 'SELECT * FROM questions WHERE id = ?';
   //   pool.query(queryString, id, callback);
