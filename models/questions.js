@@ -42,10 +42,6 @@ const readAll = (dataArray) => {
     .catch((err) => {
       console.error('Error: ', err);
     });
-  // .then((data) => cb(null, data))
-  // .catch((err) => {
-  //   callback(err);
-  // });
 };
 
 const readAllWithAnswers = (dataArray) => {
