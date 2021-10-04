@@ -1,4 +1,4 @@
-const { answers } = require('../models/index');
+const { answers, photos } = require('../models/index');
 const transformer = require('./transformer');
 
 module.exports = {
@@ -15,43 +15,39 @@ module.exports = {
         console.error('Error: ', err);
       });
   },
-  // post: (req, res) => {
-  //   let dataArray = [name, description];
-  //   questions.create(dataArray, (err, data) => {
-  //     if (err) {
-  //       console.error('Error: ', err);
-  //       res.status(500).end();
-  //     }
-  //     questions.readOne(data.insertId, (err, data) => {
-  //       if (err) {
-  //         console.error('Error: ', err);
-  //         res.status(500).end();
-  //       }
-  //       res.json(data);
-  //     });
-  //   });
-  // },
   post: (req, res) => {
-    console.log(req.body, req.params);
     let dataArray = [
+      req.params.question_id,
       req.body.body,
       req.body.name,
       req.body.email,
-      req.body.photos,
+      new Date().getTime(),
+      0,
+      0,
     ];
-    questions
+    answers
       .create(dataArray)
+      .then((data) => {
+        console.log('RETURNED', data.rows);
+        console.log('PHOTOS', req.body.photos);
+        req.body.photos.forEach((photo) => {
+          let photoDataArray = [data.rows[0].id, photo];
+          photos.create(photoDataArray).catch((err) => {
+            console.error('Error: ', err);
+          });
+        });
+        return data;
+      })
       .then((data) => {
         res.send(data);
       })
       .catch((err) => {
         console.error('Error: ', err);
       });
-    res.end();
   },
   put: (req, res) => {
-    let dataArray = [req.params.question_id];
-    questions
+    let dataArray = [req.params.answer_id];
+    answers
       .updateHelpful(dataArray)
       .then((data) => {
         res.send(data);
@@ -61,8 +57,8 @@ module.exports = {
       });
   },
   report: (req, res) => {
-    let dataArray = [req.params.question_id];
-    questions
+    let dataArray = [req.params.answer_id];
+    answers
       .report(dataArray)
       .then((data) => {
         res.send(data);

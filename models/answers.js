@@ -37,8 +37,9 @@ const readAll = (dataArray) => {
 
 const create = (dataArray) => {
   const queryString = `
-  INSERT INTO questions (product_id, body, asker_name, asker_email)
-  VALUES ($1, $2, $3, $4)
+  INSERT INTO answers (question_id, body, answerer_name, answerer_email, date_written, helpful, reported)
+  VALUES ($1, $2, $3, $4, $5, $6, $7)
+  RETURNING answers.id
   `;
   return pool
     .query(queryString, dataArray)

@@ -25,8 +25,10 @@ const readAll = (dataArray) => {
         return pool
           .query(queryString, [question.id])
           .then((answers) => {
-            const queryString =
-              'SELECT photourl FROM photos WHERE answer_id = $1';
+            const queryString = `
+            SELECT photourl FROM photos
+            WHERE answer_id = $1
+            `;
             return answers.rows.map((answer) => {
               return pool
                 .query(queryString, [answer.id])
