@@ -54,27 +54,32 @@ const formatAnswerPhotos = (photos) => {
   return formattedPhotos;
 };
 
-// const formatAnswers = (id, page, count, { rows }) => {
-//   let formattedData = {
-//     question: id,
-//     page: page,
-//     count: count,
-//   };
-//   let resultsData = rows.map((row) => {
-//     return {
-//       answer_id: row.id,
-//       body: row.body,
-//       date: new Date(parseInt(row.date_written)),
-//       answerer_name: row.answerer_name,
-//       helpfulness: row.helpful,
-//       photos: [],
-//     };
-//   });
-//   formattedData.results = resultsData;
-//   return formattedData;
-// };
+const formatAnswers = (id, page, count, data) => {
+  let formattedData = {};
+  let resultsData = data.map((answer) => {
+    let answerPhotos = answer.photos.map((photo) => {
+      return {
+        id: photo.id,
+        url: photo.photourl,
+      };
+    });
+    return {
+      answer_id: answer.id,
+      body: answer.body,
+      date: new Date(parseInt(answer.date_written)),
+      answerer_name: answer.answerer_name,
+      helpfulness: answer.helpful,
+      photos: answerPhotos,
+    };
+  });
+  formattedData.question = id;
+  formattedData.page = page;
+  formattedData.count = count;
+  formattedData.results = resultsData;
+  return formattedData;
+};
 
 module.exports = {
   questions: formatQuestions,
-  // answers: formatAnswers,
+  answers: formatAnswers,
 };

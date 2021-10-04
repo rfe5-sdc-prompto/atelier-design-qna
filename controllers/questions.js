@@ -9,38 +9,51 @@ module.exports = {
     questions
       .readAll([id, count])
       .then((data) => {
-        res.json(transformer.questions(id, data));
+        res.send(transformer.questions(id, data));
       })
       .catch((err) => {
         console.error('Error: ', err);
       });
-
-    //questions.readAllWithAnswers([id, count])
   },
-  // post: (req, res) => {
-  //   let dataArray = [name, description];
-  //   questions.create(dataArray, (err, data) => {
-  //     if (err) {
-  //       console.error('Error: ', err);
-  //       res.status(500).end();
-  //     }
-  //     questions.readOne(data.insertId, (err, data) => {
-  //       if (err) {
-  //         console.error('Error: ', err);
-  //         res.status(500).end();
-  //       }
-  //       res.json(data);
-  //     });
-  //   });
-  // },
-  // put: (req, res) => {
-  //   let dataArray = [id];
-  //   questions.update(dataArray, (err, data) => {
-  //     if (err) {
-  //       console.error('Error: ', err);
-  //       res.status(500).end();
-  //     }
-  //     res.json(data);
-  //   });
-  // },
+  post: (req, res) => {
+    let dataArray = [
+      req.body.product_id,
+      req.body.body,
+      req.body.name,
+      req.body.email,
+      new Date().getTime(),
+      0,
+      0,
+    ];
+    questions
+      .create(dataArray)
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        console.error('Error: ', err);
+      });
+  },
+  put: (req, res) => {
+    let dataArray = [req.params.question_id];
+    questions
+      .updateHelpful(dataArray)
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        console.error('Error: ', err);
+      });
+  },
+  report: (req, res) => {
+    let dataArray = [req.params.question_id];
+    questions
+      .report(dataArray)
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        console.error('Error: ', err);
+      });
+  },
 };

@@ -1,11 +1,26 @@
 const pool = require('../db');
 
 const readAll = (dataArray) => {
-  const queryString = 'SELECT * FROM questions WHERE product_id = $1 LIMIT $2';
+  const queryString = `
+  SELECT * FROM questions
+  WHERE product_id = $1
+  EXCEPT
+  SELECT *
+  FROM questions
+  WHERE questions.reported = 1
+  LIMIT $2
+  `;
   return pool
     .query(queryString, dataArray)
     .then((questions) => {
-      const queryString = 'SELECT * FROM answers WHERE question_id = $1';
+      const queryString = `
+      SELECT * FROM answers
+      WHERE question_id = $1
+      EXCEPT
+      SELECT *
+      FROM answers
+      WHERE answers.reported = 1
+      `;
       return questions.rows.map((question) => {
         return pool
           .query(queryString, [question.id])
@@ -44,25 +59,10 @@ const readAll = (dataArray) => {
     });
 };
 
-const readAllWithAnswers = (dataArray) => {
+const create = (dataArray) => {
   const queryString = `
-  SELECT questions.id, questions.body, questions.date_written, questions.asker_name, questions.helpful, questions.reported,
-
-
-
-  FROM questions
-  LEFT OUTER JOIN answers
-  ON (questions.id = answers.question_id)
-  WHERE product_id = $1
-  LEFT OUTER JOIN photos
-  ON (answers.id = photos.answer_id)
-  EXCEPT
-  SELECT *
-  FROM questions
-  LEFT OUTER JOIN answers
-  ON (questions.id = answers.question_id)
-  WHERE questions.reported = 1 OR answers.reported = 1
-  LIMIT $2
+  INSERT INTO questions (product_id, body, asker_name, asker_email, date_written, helpful, reported)
+  VALUES ($1, $2, $3, $4, $5, $6, $7)
   `;
   return pool
     .query(queryString, dataArray)
@@ -70,28 +70,74 @@ const readAllWithAnswers = (dataArray) => {
       return data;
     })
     .catch((err) => {
-      console.log(err);
+      console.error('Error: ', err);
     });
 };
 
+const updateHelpful = (dataArray) => {
+  const queryString = `
+  UPDATE questions
+  SET helpful = helpful + 1
+  WHERE id = $1
+  `;
+  return pool
+    .query(queryString, dataArray)
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.error('Error: ', err);
+    });
+};
+
+const report = (dataArray) => {
+  const queryString = `
+  UPDATE questions
+  SET reported = 1
+  WHERE id = $1
+  `;
+  return pool
+    .query(queryString, dataArray)
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.error('Error: ', err);
+    });
+};
+
+// const readAllWithAnswers = (dataArray) => {
+//   const queryString = `
+//   SELECT
+//   questions.id, questions.body, questions.date_written, questions.asker_name, questions.helpful, questions.reported,
+//   FROM questions
+//   LEFT OUTER JOIN answers
+//   ON (questions.id = answers.question_id)
+//   WHERE product_id = $1
+//   LEFT OUTER JOIN photos
+//   ON (answers.id = photos.answer_id)
+//   EXCEPT
+//   SELECT *
+//   FROM questions
+//   LEFT OUTER JOIN answers
+//   ON (questions.id = answers.question_id)
+//   WHERE questions.reported = 1 OR answers.reported = 1
+//   LIMIT $2
+//   `;
+//   return pool
+//     .query(queryString, dataArray)
+//     .then((data) => {
+//       return data;
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// };
+
 module.exports = {
   readAll: readAll,
-  readAllWithAnswers: readAllWithAnswers,
-  // readOne: (id, callback) => {
-  //   const queryString = 'SELECT * FROM questions WHERE id = ?';
-  //   pool.query(queryString, id, callback);
-  // },
-  // create: (dataArray, callback) => {
-  //   const queryString = 'INSERT INTO questions (name, description) VALUES (?, ?)';
-  //   pool.query(queryString, dataArray, callback);
-  // },
-  // update: (dataArray, callback) => {
-  //   const queryString =
-  //     'UPDATE questions SET name = ?, description = ? WHERE id = ?';
-  //   pool.query(queryString, dataArray, callback);
-  // },
-  // delete: (id, callback) => {
-  //   const queryString = 'DELETE FROM questions WHERE id = ?';
-  //   pool.query(queryString, id, callback);
-  // },
+  create: create,
+  updateHelpful: updateHelpful,
+  report: report,
+  // readAllWithAnswers: readAllWithAnswers
 };
