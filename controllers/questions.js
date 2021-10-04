@@ -28,7 +28,7 @@ module.exports = {
     questions
       .create(dataArray)
       .then((data) => {
-        res.send(data);
+        res.status(201).send(data);
       })
       .catch((err) => {
         console.error('Error: ', err);
@@ -39,7 +39,7 @@ module.exports = {
     questions
       .updateHelpful(dataArray)
       .then((data) => {
-        res.send(data);
+        res.status(204).send(data);
       })
       .catch((err) => {
         console.error('Error: ', err);
@@ -50,7 +50,7 @@ module.exports = {
     questions
       .report(dataArray)
       .then((data) => {
-        res.send(data);
+        res.status(204).send(data);
       })
       .catch((err) => {
         console.error('Error: ', err);

@@ -39,7 +39,7 @@ module.exports = {
         return data;
       })
       .then((data) => {
-        res.send(data);
+        res.status(201).send(data);
       })
       .catch((err) => {
         console.error('Error: ', err);
@@ -50,7 +50,7 @@ module.exports = {
     answers
       .updateHelpful(dataArray)
       .then((data) => {
-        res.send(data);
+        res.status(204).send(data);
       })
       .catch((err) => {
         console.error('Error: ', err);
@@ -61,7 +61,7 @@ module.exports = {
     answers
       .report(dataArray)
       .then((data) => {
-        res.send(data);
+        res.status(204).send(data);
       })
       .catch((err) => {
         console.error('Error: ', err);
