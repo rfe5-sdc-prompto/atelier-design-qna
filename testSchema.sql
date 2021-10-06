@@ -1,6 +1,6 @@
-CREATE DATABASE qna;
+CREATE DATABASE testdb;
 
-\c qna;
+\c testdb;
 
 CREATE TABLE IF NOT EXISTS questions (
   id SERIAL PRIMARY KEY,
@@ -36,4 +36,4 @@ CREATE TABLE IF NOT EXISTS photos (
       REFERENCES answers(id)
 );
 
--- psql -d qna -U chris2 -a -f qnaSchema.sql
+-- psql -d testdb -U chris2 -a -f testSchema.sql

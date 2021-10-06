@@ -2,12 +2,15 @@ const pool = require('../db');
 
 const readAll = (dataArray) => {
   const queryString = `
-  SELECT * FROM answers
-  WHERE question_id = $1
-  EXCEPT
-  SELECT *
+  SELECT
+    answers.id,
+    answers.body,
+    answers.date_written,
+    answers.answerer_name,
+    answers.helpful
   FROM answers
-  WHERE answers.reported = 1
+  WHERE question_id = $1
+  AND answers.reported != 1
   LIMIT $2
   `;
   return pool
