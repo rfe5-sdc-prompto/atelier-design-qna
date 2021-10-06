@@ -1,15 +1,15 @@
-const { questions, answers } = require('../models/index');
+const { answers, photos } = require('../models/index');
 const transformer = require('./transformer');
 
 module.exports = {
   get: (req, res) => {
-    let id = req.query.product_id;
-    let count = req.query.count || 5;
+    let questionId = req.params.question_id;
     let page = req.query.page || 1;
-    questions
-      .readAll([id, count])
+    let count = req.query.count || 10;
+    answers
+      .readAll([questionId, count])
       .then((data) => {
-        res.send(transformer.questions(id, data));
+        res.send(transformer.answers(questionId, page, count, data));
       })
       .catch((err) => {
         console.error('Error: ', err);
@@ -17,7 +17,7 @@ module.exports = {
   },
   post: (req, res) => {
     let dataArray = [
-      req.body.product_id,
+      req.params.question_id,
       req.body.body,
       req.body.name,
       req.body.email,
@@ -25,8 +25,19 @@ module.exports = {
       0,
       0,
     ];
-    questions
+    answers
       .create(dataArray)
+      .then((data) => {
+        console.log('RETURNED', data.rows);
+        console.log('PHOTOS', req.body.photos);
+        req.body.photos.forEach((photo) => {
+          let photoDataArray = [data.rows[0].id, photo];
+          photos.create(photoDataArray).catch((err) => {
+            console.error('Error: ', err);
+          });
+        });
+        return data;
+      })
       .then((data) => {
         res.status(201).send(data);
       })
@@ -35,8 +46,8 @@ module.exports = {
       });
   },
   put: (req, res) => {
-    let dataArray = [req.params.question_id];
-    questions
+    let dataArray = [req.params.answer_id];
+    answers
       .updateHelpful(dataArray)
       .then((data) => {
         res.status(204).send(data);
@@ -46,8 +57,8 @@ module.exports = {
       });
   },
   report: (req, res) => {
-    let dataArray = [req.params.question_id];
-    questions
+    let dataArray = [req.params.answer_id];
+    answers
       .report(dataArray)
       .then((data) => {
         res.status(204).send(data);
