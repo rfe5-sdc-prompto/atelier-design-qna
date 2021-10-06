@@ -1,0 +1,26 @@
+{
+  "name": "questions_answers",
+  "version": "1.0.0",
+  "description": "Questions and Answers Database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rfe5-sdc-prompto/questions_answers.git"
+  },
+  "author": "Chris",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rfe5-sdc-prompto/questions_answers/issues"
+  },
+  "homepage": "https://github.com/rfe5-sdc-prompto/questions_answers#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "pg": "^8.7.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}
