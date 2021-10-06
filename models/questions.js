@@ -2,26 +2,31 @@ const pool = require('../db');
 
 const readAll = (dataArray) => {
   const queryString = `
-  SELECT questions.id, questions.body, questions.date_written, questions.asker_name, questions.helpful, questions.reported
+  SELECT
+    questions.id,
+    questions.body,
+    questions.date_written,
+    questions.asker_name,
+    questions.helpful,
+    questions.reported
   FROM questions
-  WHERE product_id = $1
-  EXCEPT
-  SELECT questions.id, questions.body, questions.date_written, questions.asker_name, questions.helpful, questions.reported
-  FROM questions
-  WHERE questions.reported = 1
+  WHERE questions.product_id = $1
+  AND questions.reported != 1
   LIMIT $2
   `;
   return pool
     .query(queryString, dataArray)
     .then((questions) => {
       const queryString = `
-      SELECT answers.id, answers.body, answers.date_written, answers.answerer_name, answers.helpful
+      SELECT
+        answers.id,
+        answers.body,
+        answers.date_written,
+        answers.answerer_name,
+        answers.helpful
       FROM answers
       WHERE question_id = $1
-      EXCEPT
-      SELECT answers.id, answers.body, answers.date_written, answers.answerer_name, answers.helpful
-      FROM answers
-      WHERE answers.reported = 1
+      AND answers.reported != 1
       `;
       return questions.rows.map((question) => {
         return pool
