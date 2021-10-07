@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const { questions, answers } = require('./controllers/index');
-const loaderToken = require('./loaderTest.txt');
 
 let app = express();
 
@@ -43,7 +42,7 @@ app.get('/loaderio-2f9d306f2ea37455b086496afd2ad3bd.txt', function(req, res){
       root: path.join(__dirname)
   };
 
-  res.sendFile('loaderTest.txt', options, function (err) {
+  res.sendFile('loaderTest', options, function (err) {
       if (err) {
           next(err);
       } else {
