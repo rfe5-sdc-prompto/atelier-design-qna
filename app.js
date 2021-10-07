@@ -38,11 +38,18 @@ app.put('/qa/answers/:answer_id/report', (req, res) => {
   answers.report(req, res);
 });
 
-app.get(
-  `http://ec2-18-118-110-187.us-east-2.compute.amazonaws.com/loaderio-2f9d306f2ea37455b086496afd2ad3bd.txt`,
-  (req, res) => {
-    res.send(loaderToken);
-  }
-);
+app.get('/loaderio-2f9d306f2ea37455b086496afd2ad3bd.txt', function(req, res){
+  var options = {
+      root: path.join(__dirname)
+  };
+
+  res.sendFile('loaderTest.txt', options, function (err) {
+      if (err) {
+          next(err);
+      } else {
+          console.log('Sent');
+      }
+  });
+});
 
 module.exports = app;
