@@ -18,6 +18,8 @@ This project uses the PostgreSQL database management system. This repository con
 
 ## Tech Stack
 
+<img src="https://img.shields.io/badge/BadgeText-ColourCode?logo=SimpleIconName&logoColor=ColorName&style=ShieldStyle" />
+
 ![Node.js][NodeIcon]
 ![Express.js][ExpressIcon]
 ![PostgreSQL][PostgresIcon]
