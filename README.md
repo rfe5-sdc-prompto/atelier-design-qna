@@ -20,7 +20,7 @@ This project uses the PostgreSQL database management system. This repository con
 
 ## Authors
 
-Chris Chung
+[Chris Chung](https://github.com/ch987)
 
 [NodeIcon]: https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white "Node.js"
 [ExpressIcon]: https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white "Express"
