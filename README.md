@@ -3,16 +3,16 @@
 Provides the system for which The Right Fit front end operates.
 
 ## Table of Contents
-- [Description]
-- [Database]
-- [Technologies Used]
+- [Description](Description)
+- [Database](Database)
+- [Technologies Used](Tech Stack)
 
 ## Description
 
 This project is a system design project. It uses Express.js for the server handling and for the database management system it uses PostgreSQL.
 This repository contains all the endpoints to get questions and answers data from the database.
 
-### Database
+## Database
 
 This project uses the PostgreSQL database management system. This repository contains the SQL files for the schema design, as well as an import file to run when importing data from CSV's.
 
