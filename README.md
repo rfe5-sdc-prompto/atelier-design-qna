@@ -18,8 +18,6 @@ This project uses the PostgreSQL database management system. This repository con
 
 ## Tech Stack
 
-<img src="https://img.shields.io/badge/Node.js-ColourCode?logo=Node.js&logoColor=black&style=ShieldStyle" />
-
 ![Node.js][NodeIcon]
 ![Express.js][ExpressIcon]
 ![PostgreSQL][PostgresIcon]
@@ -29,10 +27,10 @@ This project uses the PostgreSQL database management system. This repository con
 
 Chris Chung
 
-[NodeIcon]: https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/nodejs/nodejs.png "Node.js"
-[ExpressIcon]: https://github.com/devicons/devicon/blob/master/icons/express/express-original.svg "Express"
-[PostgresIcon]: https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1200px-Postgresql_elephant.svg.png "Postgres"
-[AWSIcon]: https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original-wordmark.svg "Amazon AWS"
+[NodeIcon]: https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white "Node.js"
+[ExpressIcon]: https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white "Express"
+[PostgresIcon]: https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white "Postgres"
+[AWSIcon]: https://img.shields.io/badge/Amazon_AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white "Amazon AWS"
 
 
 
